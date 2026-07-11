@@ -51,7 +51,10 @@ fish -c "set -U tide_right_prompt_items status cmd_duration context jobs direnv 
 
 echo "==> shell por defecto: fish"
 if [ "$SHELL" != "$(command -v fish)" ]; then
-    chsh -s "$(command -v fish)"
+    # chsh normal pide contraseña por PAM, lo cual no funciona bien bajo
+    # `curl | bash` (no hay tty interactivo). Usamos sudo en su lugar, que ya
+    # tiene la sesión cacheada desde el `apt install` de más arriba.
+    sudo usermod --shell "$(command -v fish)" "$USER"
     echo "Shell cambiado a fish (toma efecto en una terminal nueva)."
 else
     echo "fish ya es el shell por defecto, se omite"
