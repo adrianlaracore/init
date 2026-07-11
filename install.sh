@@ -47,6 +47,7 @@ fish -c "nvm install lts"
 
 echo "==> variables universales de fish"
 fish -c "set -U nvm_default_version v24.18.0"
+fish -c "tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Solid --prompt_spacing=Sparse --icons='Many icons' --transient=Yes"
 fish -c "set -U tide_right_prompt_items status cmd_duration context jobs direnv bun node python rustc java php pulumi ruby go gcloud distrobox toolbox terraform aws nix_shell crystal elixir zig"
 
 echo "==> shell por defecto: fish"
