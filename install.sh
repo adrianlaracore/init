@@ -44,6 +44,14 @@ echo "==> variables universales de fish"
 fish -c "set -U nvm_default_version v24.18.0"
 fish -c "set -U tide_right_prompt_items status cmd_duration context jobs direnv bun node python rustc java php pulumi ruby go gcloud distrobox toolbox terraform aws nix_shell crystal elixir zig"
 
+echo "==> shell por defecto: fish"
+if [ "$SHELL" != "$(command -v fish)" ]; then
+    chsh -s "$(command -v fish)"
+    echo "Shell cambiado a fish (toma efecto en una terminal nueva)."
+else
+    echo "fish ya es el shell por defecto, se omite"
+fi
+
 echo "==> chezmoi: clonando y aplicando dotfiles"
 chezmoi init --apply adrianlaracore/wsl-ubuntu-init
 
@@ -63,7 +71,10 @@ fi
 
 cat <<'EOF'
 
-==> Instalación completa. Pasos manuales pendientes (no automatizables desde aquí):
+==> Instalación completa. Abre una terminal nueva para entrar directo a fish
+    con todo aplicado (alias, plugins, PATH).
+
+Pasos manuales pendientes (no automatizables desde aquí):
 
   1. Docker Desktop (Windows) → Settings → Resources → WSL Integration
      → activa el toggle para esta distro.
