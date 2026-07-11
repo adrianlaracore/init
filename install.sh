@@ -66,7 +66,7 @@ else
 fi
 
 echo "==> chezmoi: clonando y aplicando dotfiles"
-chezmoi init --apply adrianlaracore/wsl-ubuntu-init
+chezmoi init --apply adrianlaracore/init
 
 cat <<'EOF'
 

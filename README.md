@@ -1,11 +1,11 @@
-# wsl-ubuntu-init
+# Entorno de desarrollo
 
 Bootstrap del entorno de dev de Adrian (WSL2 + fish) más las configuraciones (dotfiles) gestionadas con [chezmoi](https://www.chezmoi.io/).
 
 ## Cómo se ejecuta
 
 ```bash
-git clone https://github.com/adrianlaracore/wsl-ubuntu-init.git ~/wsl-ubuntu-init && cd ~/wsl-ubuntu-init && bash install.sh
+git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && bash install.sh
 ```
 
 El script es idempotente: se puede volver a correr sin romper nada si ya tienes algunas herramientas instaladas.
