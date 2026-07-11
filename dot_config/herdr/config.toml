@@ -1,0 +1,35 @@
+onboarding = false
+[keys]
+prefix = "ctrl+space"
+split_horizontal = "prefix+minus"
+split_vertical = "prefix+="
+settings = "prefix+comma"
+new_tab = "prefix+shift+n"
+previous_tab = "prefix+shift+j"
+next_tab = "prefix+shift+k"
+close_tab = "prefix+shift+q"
+rename_tab = "prefix+shift+r"
+switch_tab = ""
+detach = "prefix+`"
+close_pane = "prefix+q"
+new_workspace = "prefix+alt+n"
+rename_workspace = "prefix+alt+r"
+close_workspace = "prefix+alt+q"
+previous_workspace = "prefix+alt+k"
+next_workspace = "prefix+alt+j"
+switch_workspace = "prefix+1..9"
+copy_mode = "prefix+y"
+toggle_sidebar = "prefix+tab"
+cycle_pane_next = ""
+
+[ui.toast]
+delivery = "terminal"
+
+[theme]
+name = "gruvbox"
+auto_switch = false
+
+[ui]
+show_agent_labels_on_pane_borders = true
+prompt_new_tab_name = false
+agent_panel_sort = "spaces"
