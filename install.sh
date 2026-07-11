@@ -39,7 +39,7 @@ fish -c "
         curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
         fisher install jorgebucaran/fisher
     end
-    fisher install ilancosman/tide jorgebucaran/autopair.fish jorgebucaran/nvm.fish
+    fisher install ilancosman/tide@v6 jorgebucaran/autopair.fish jorgebucaran/nvm.fish
 "
 
 echo "==> Node vía nvm.fish"
@@ -50,7 +50,11 @@ fish -c "set -U nvm_default_version v24.18.0"
 fish -c "set -U tide_right_prompt_items status cmd_duration context jobs direnv bun node python rustc java php pulumi ruby go gcloud distrobox toolbox terraform aws nix_shell crystal elixir zig"
 
 echo "==> shell por defecto: fish"
-if [ "$SHELL" != "$(command -v fish)" ]; then
+# ojo: NO comparar contra $SHELL — esa variable refleja el shell desde el que
+# se lanzó esta terminal (podría ser fish si entraste manual antes de correr
+# el script), no el shell de login real registrado en el sistema.
+current_login_shell="$(getent passwd "$USER" | cut -d: -f7)"
+if [ "$current_login_shell" != "$(command -v fish)" ]; then
     # chsh normal pide contraseña por PAM, lo cual no funciona bien bajo
     # `curl | bash` (no hay tty interactivo). Usamos sudo en su lugar, que ya
     # tiene la sesión cacheada desde el `apt install` de más arriba.
