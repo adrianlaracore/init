@@ -15,9 +15,6 @@ else
     echo "nvim ya está instalado, se omite"
 fi
 
-echo "==> yazi"
-sudo snap install yazi --classic
-
 echo "==> Claude Code"
 curl -fsSL https://claude.ai/install.sh | bash
 
