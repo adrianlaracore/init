@@ -24,13 +24,29 @@ El script es idempotente: se puede volver a correr sin romper nada si ya tienes 
 
 Al final imprime recordatorios de pasos manuales que no se pueden automatizar desde WSL (activar WSL Integration en Docker Desktop, instalar Hermes/Pi si se quieren).
 
-## Configuraciones incluidas (dotfiles vía chezmoi)
+## herdr
 
-- **fish** (`~/.config/fish/`): `config.fish` (aliases, PATH, zoxide) y `fish_plugins` (lista de plugins de fisher)
-- **herdr** (`~/.config/herdr/config.toml`): keybindings, tema y preferencias de UI
+Prefix: `ctrl+space`
 
-Se aplican automáticamente al final de `install.sh`. Para reaplicarlas manualmente en cualquier momento (por ejemplo después de editar algo en este repo):
+| Acción | Tecla |
+|---|---|
+| Split horizontal | `prefix+minus` |
+| Split vertical | `prefix+=` |
+| Settings | `prefix+comma` |
+| Nueva tab | `prefix+shift+n` |
+| Tab anterior | `prefix+shift+j` |
+| Tab siguiente | `prefix+shift+k` |
+| Cerrar tab | `prefix+shift+q` |
+| Renombrar tab | `prefix+shift+r` |
+| Detach | `` prefix+` `` |
+| Cerrar pane | `prefix+q` |
+| Nuevo workspace | `prefix+alt+n` |
+| Renombrar workspace | `prefix+alt+r` |
+| Cerrar workspace | `prefix+alt+q` |
+| Workspace anterior | `prefix+alt+k` |
+| Workspace siguiente | `prefix+alt+j` |
+| Cambiar a workspace N | `prefix+1..9` |
+| Copy mode | `prefix+y` |
+| Toggle sidebar | `prefix+tab` |
 
-```bash
-chezmoi apply
-```
+Tema: `gruvbox`. Config completa en `~/.config/herdr/config.toml`, aplicada vía chezmoi.
