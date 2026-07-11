@@ -5,10 +5,10 @@ Bootstrap del entorno de dev de Adrian (WSL2 + fish) más las configuraciones (d
 ## Cómo se ejecuta
 
 ```bash
-git clone https://github.com/adrianlaracore/wsl-ubuntu-init.git ~/wsl-ubuntu-init
-cd ~/wsl-ubuntu-init
-bash install.sh
+curl -fsSL https://raw.githubusercontent.com/adrianlaracore/wsl-ubuntu-init/main/install.sh | bash
 ```
+
+El propio script clona el repo de dotfiles al final (vía `chezmoi init --apply`), así que no hace falta clonar nada a mano antes.
 
 El script es idempotente: se puede volver a correr sin romper nada si ya tienes algunas herramientas instaladas.
 

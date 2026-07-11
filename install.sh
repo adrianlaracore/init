@@ -49,7 +49,7 @@ chezmoi init --apply adrianlaracore/wsl-ubuntu-init
 
 echo "==> ollama (opcional, al final)"
 if ! command -v ollama >/dev/null 2>&1; then
-    read -rp "ollama no está instalado. ¿Instalarlo junto con los modelos de Qwen (qwen3-coder:30b-a3b para tareas pesadas, qwen2.5-coder:1.5b-base para autocompletado)? [y/N] " install_ollama
+    read -rp "ollama no está instalado. ¿Instalarlo junto con los modelos de Qwen (qwen3-coder:30b-a3b para tareas pesadas, qwen2.5-coder:1.5b-base para autocompletado)? [y/N] " install_ollama < /dev/tty
     if [[ "$install_ollama" =~ ^[Yy]$ ]]; then
         curl -fsSL https://ollama.com/install.sh | sh
         ollama pull qwen3-coder:30b-a3b
