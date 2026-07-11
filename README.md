@@ -5,10 +5,12 @@ Bootstrap del entorno de dev de Adrian (WSL2 + fish) más las configuraciones (d
 ## Cómo se ejecuta
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/adrianlaracore/wsl-ubuntu-init/main/install.sh | bash
+git clone https://github.com/adrianlaracore/wsl-ubuntu-init.git ~/wsl-ubuntu-init
+cd ~/wsl-ubuntu-init
+bash install.sh
 ```
 
-El propio script clona el repo de dotfiles al final (vía `chezmoi init --apply`), así que no hace falta clonar nada a mano antes.
+**Nota:** no correr como `curl | bash`. El script tiene pasos interactivos (contraseña de sudo, confirmación de ollama) que necesitan una terminal real — bajo un pipe, el stdin queda ocupado por el propio script y esos pasos fallan silenciosamente.
 
 El script es idempotente: se puede volver a correr sin romper nada si ya tienes algunas herramientas instaladas.
 
