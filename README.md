@@ -24,7 +24,7 @@ El script es idempotente: se puede volver a correr sin romper nada si ya tienes 
 - Aplica las configuraciones de este repo con `chezmoi init --apply`
 - **ollama** (opcional, pregunta al final): si se confirma, también descarga los modelos `qwen3-coder:30b-a3b` (tareas pesadas) y `qwen2.5-coder:1.5b-base` (autocompletado)
 
-Al final imprime recordatorios de pasos manuales que no se pueden automatizar desde WSL (activar WSL Integration en Docker Desktop, instalar Hermes/Pi si se quieren).
+Al final imprime un recordatorio de un paso manual que no se puede automatizar desde WSL: activar WSL Integration en Docker Desktop.
 
 ## herdr
 
