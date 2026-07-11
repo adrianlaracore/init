@@ -5,12 +5,10 @@ Bootstrap del entorno de dev de Adrian (WSL2 + fish) más las configuraciones (d
 ## Cómo se ejecuta
 
 ```bash
-git clone https://github.com/adrianlaracore/wsl-ubuntu-init.git ~/wsl-ubuntu-init
-cd ~/wsl-ubuntu-init
-bash install.sh
+curl -fsSL https://raw.githubusercontent.com/adrianlaracore/wsl-ubuntu-init/main/install.sh | bash
 ```
 
-**Nota:** no correr como `curl | bash`. El script tiene pasos interactivos (contraseña de sudo, confirmación de ollama) que necesitan una terminal real — bajo un pipe, el stdin queda ocupado por el propio script y esos pasos fallan silenciosamente.
+El propio script clona el repo de dotfiles al final (vía `chezmoi init --apply`), así que no hace falta clonar nada a mano antes. El script es totalmente no-interactivo salvo la contraseña de `sudo` (que se pide por tty directo, no rompe bajo el pipe).
 
 El script es idempotente: se puede volver a correr sin romper nada si ya tienes algunas herramientas instaladas.
 
@@ -22,9 +20,16 @@ El script es idempotente: se puede volver a correr sin romper nada si ya tienes 
 - **fisher** + plugins de fish: `tide`, `autopair.fish`, `nvm.fish`
 - **Node** (LTS) vía `nvm.fish`
 - Aplica las configuraciones de este repo con `chezmoi init --apply`
-- **ollama** (opcional, pregunta al final): si se confirma, también descarga los modelos `qwen3-coder:30b-a3b` (tareas pesadas) y `qwen2.5-coder:1.5b-base` (autocompletado)
 
-Al final imprime un recordatorio de un paso manual que no se puede automatizar desde WSL: activar WSL Integration en Docker Desktop.
+Al final imprime recordatorios de dos pasos manuales que no se automatizan desde el script:
+
+1. Activar **WSL Integration** en Docker Desktop (Windows) → Settings → Resources.
+2. **ollama** (opcional), con los modelos de Qwen recomendados:
+   ```bash
+   curl -fsSL https://ollama.com/install.sh | sh
+   ollama pull qwen3-coder:30b-a3b       # tareas pesadas
+   ollama pull qwen2.5-coder:1.5b-base   # autocompletado
+   ```
 
 ## herdr
 

@@ -68,20 +68,6 @@ fi
 echo "==> chezmoi: clonando y aplicando dotfiles"
 chezmoi init --apply adrianlaracore/wsl-ubuntu-init
 
-echo "==> ollama (opcional, al final)"
-if ! command -v ollama >/dev/null 2>&1; then
-    read -rp "ollama no está instalado. ¿Instalarlo junto con los modelos de Qwen (qwen3-coder:30b-a3b para tareas pesadas, qwen2.5-coder:1.5b-base para autocompletado)? [y/N] " install_ollama < /dev/tty
-    if [[ "$install_ollama" =~ ^[Yy]$ ]]; then
-        curl -fsSL https://ollama.com/install.sh | sh
-        ollama pull qwen3-coder:30b-a3b
-        ollama pull qwen2.5-coder:1.5b-base
-    else
-        echo "Se omite ollama."
-    fi
-else
-    echo "ollama ya está instalado, se omite."
-fi
-
 cat <<'EOF'
 
 ==> Instalación completa. Abre una terminal nueva para entrar directo a fish
@@ -92,7 +78,9 @@ Pasos manuales pendientes (no automatizables desde aquí):
   1. Docker Desktop (Windows) → Settings → Resources → WSL Integration
      → activa el toggle para esta distro.
 
-  2. Si quieres Hermes o Pi, se instalan y configuran aparte
-     (no están incluidos en este script).
+  2. ollama (opcional), con los modelos de Qwen recomendados:
+       curl -fsSL https://ollama.com/install.sh | sh
+       ollama pull qwen3-coder:30b-a3b
+       ollama pull qwen2.5-coder:1.5b-base
 
 EOF
