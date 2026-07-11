@@ -16,7 +16,6 @@ El script es idempotente: se puede volver a correr sin romper nada si ya tienes 
 
 - **apt**: `zstd`, `zoxide`, `fzf`, `fish`, `lsd`
 - **neovim**: binario manual (appimage más reciente) en `/usr/local/bin/nvim`
-- **yazi**: vía snap
 - **Claude Code**, **herdr**, **chezmoi**: vía sus instaladores oficiales por curl
 - **fisher** + plugins de fish: `tide`, `autopair.fish`, `nvm.fish`
 - **Node** (LTS) vía `nvm.fish`
