@@ -21,9 +21,6 @@ sudo snap install yazi --classic
 echo "==> Claude Code"
 curl -fsSL https://claude.ai/install.sh | bash
 
-echo "==> ollama"
-curl -fsSL https://ollama.com/install.sh | sh
-
 echo "==> herdr"
 curl -fsSL https://herdr.dev/install.sh | sh
 
@@ -52,6 +49,20 @@ fish -c "set -U tide_right_prompt_items status cmd_duration context jobs direnv 
 
 echo "==> chezmoi: clonando y aplicando dotfiles"
 chezmoi init --apply adrianlaracore/wsl-ubuntu-init
+
+echo "==> ollama (opcional, al final)"
+if ! command -v ollama >/dev/null 2>&1; then
+    read -rp "ollama no está instalado. ¿Instalarlo junto con los modelos de Qwen (qwen3-coder:30b-a3b para tareas pesadas, qwen2.5-coder:1.5b-base para autocompletado)? [y/N] " install_ollama
+    if [[ "$install_ollama" =~ ^[Yy]$ ]]; then
+        curl -fsSL https://ollama.com/install.sh | sh
+        ollama pull qwen3-coder:30b-a3b
+        ollama pull qwen2.5-coder:1.5b-base
+    else
+        echo "Se omite ollama."
+    fi
+else
+    echo "ollama ya está instalado, se omite."
+fi
 
 cat <<'EOF'
 
