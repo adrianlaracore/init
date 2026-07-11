@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# herramientas que instalamos van a ~/.local/bin; lo exportamos ya mismo para
+# que el resto de este script (chezmoi más abajo, etc.) las encuentre sin
+# depender de que .profile se haya vuelto a leer.
+export PATH="$HOME/.local/bin:$PATH"
+
 echo "==> apt packages"
 sudo apt update
 sudo apt install -y zstd zoxide fzf fish lsd
