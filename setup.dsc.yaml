@@ -225,22 +225,4 @@ properties:
         TestScript: "Test-Path (Join-Path $env:USERPROFILE '.config\\wezterm\\wezterm.lua')"
         SetScript: "$ErrorActionPreference = 'Continue'; chezmoi init --apply https://github.com/adrianlaracore/init.git"
 
-    # Borra el clon de bootstrap ~/init, ya que chezmoi hizo su propio clon
-    - resource: PSDscResources/Script
-      id: cleanupBootstrap
-      dependsOn:
-        - dotfiles
-      directives:
-        description: Remove bootstrap clone
-      settings:
-        GetScript: "@{ Result = '' }"
-        TestScript: "-not (Test-Path (Join-Path $env:USERPROFILE 'init'))"
-        SetScript: |
-          Set-Location $env:USERPROFILE
-          try {
-            Remove-Item -Recurse -Force (Join-Path $env:USERPROFILE 'init') -ErrorAction Stop
-          } catch {
-            Write-Output "No se pudo borrar ~/init (puede seguir en uso); borralo a mano si hace falta."
-          }
-
   configurationVersion: 0.2.0
