@@ -1,0 +1,119 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+# Uso: winget configure -f configuration.dsc.yaml
+
+properties:
+  resources:
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: git
+      directives:
+        description: Install Git
+        allowPrerelease: true
+      settings:
+        id: Git.Git
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: pwsh7
+      directives:
+        description: Install PowerShell 7
+        allowPrerelease: true
+      settings:
+        id: Microsoft.PowerShell
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: wezterm
+      directives:
+        description: Install WezTerm
+        allowPrerelease: true
+      settings:
+        id: wez.wezterm
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: neovim
+      directives:
+        description: Install Neovim
+        allowPrerelease: true
+      settings:
+        id: Neovim.Neovim
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: lazygit
+      directives:
+        description: Install Lazygit
+        allowPrerelease: true
+      settings:
+        id: JesseDuffield.lazygit
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: nvm
+      directives:
+        description: Install NVM for Windows
+        allowPrerelease: true
+      settings:
+        id: CoreyButler.NVMforWindows
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: croc
+      directives:
+        description: Install croc
+        allowPrerelease: true
+      settings:
+        id: schollz.croc
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: chezmoi
+      directives:
+        description: Install chezmoi
+        allowPrerelease: true
+      settings:
+        id: twpayne.chezmoi
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: treeSitterCli
+      directives:
+        description: Install tree-sitter-cli
+        allowPrerelease: true
+      settings:
+        id: tree-sitter.tree-sitter-cli
+        source: winget
+
+    # Claude Code no tiene paquete winget oficial, se instala con su script
+    - resource: PSDscResources/Script
+      id: claudeCode
+      directives:
+        description: Install Claude Code
+      settings:
+        GetScript: "@{ Result = '' }"
+        TestScript: "(Get-Command claude -ErrorAction SilentlyContinue) -ne $null"
+        SetScript: "irm https://claude.ai/install.ps1 | iex"
+
+    # Herdr no tiene paquete winget oficial, se instala con su script (beta en Windows)
+    - resource: PSDscResources/Script
+      id: herdr
+      directives:
+        description: Install Herdr
+      settings:
+        GetScript: "@{ Result = '' }"
+        TestScript: "(Get-Command herdr -ErrorAction SilentlyContinue) -ne $null"
+        SetScript: "powershell -ExecutionPolicy Bypass -c \"irm https://herdr.dev/install.ps1 | iex\""
+
+    # Aplica los dotfiles de Windows (wezterm.lua, perfil de PowerShell) via chezmoi.
+    - resource: PSDscResources/Script
+      id: dotfiles
+      dependsOn:
+        - chezmoi
+      directives:
+        description: Apply dotfiles with chezmoi
+      settings:
+        GetScript: "@{ Result = '' }"
+        TestScript: "Test-Path (Join-Path $env:USERPROFILE '.config\\wezterm\\wezterm.lua')"
+        SetScript: "chezmoi init --apply https://github.com/adrianlaracore/init.git"
+
+  configurationVersion: 0.2.0

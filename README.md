@@ -1,8 +1,20 @@
 # Entorno de desarrollo
 
-Bootstrap del entorno de dev de Adrian (WSL2 + fish) más las configuraciones (dotfiles) gestionadas con [chezmoi](https://www.chezmoi.io/).
+Bootstrap del entorno de dev de Adrian —**Windows** (vía `winget configure`) y **WSL2 + fish** (vía `install.sh`)— más las configuraciones (dotfiles) gestionadas con [chezmoi](https://www.chezmoi.io/). Ambos comandos aplican los dotfiles de este mismo repo; `home/.chezmoiignore` filtra automáticamente qué le corresponde a cada sistema operativo.
 
-## Cómo se ejecuta
+## 1. Windows
+
+```powershell
+git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && winget configure -f configuration.dsc.yaml
+```
+
+### Qué instala `configuration.dsc.yaml`
+
+- **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`
+- **Claude Code** y **herdr** (beta en Windows): sin paquete winget oficial, se instalan con sus scripts propios
+- Aplica los dotfiles de Windows de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`): WezTerm, perfil de PowerShell, herdr y nvim
+
+## 2. WSL
 
 ```bash
 git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && bash install.sh
@@ -10,7 +22,7 @@ git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && bash
 
 El script es idempotente: se puede volver a correr sin romper nada si ya tienes algunas herramientas instaladas.
 
-## Qué instala `install.sh`
+### Qué instala `install.sh`
 
 - Crea `~/desktop`, que queda como carpeta por defecto al abrir una terminal nueva
 - **apt**: `zstd`, `zoxide`, `fzf`, `fish`, `lsd`, `unzip`, `zip`, `gcc`
@@ -20,7 +32,7 @@ El script es idempotente: se puede volver a correr sin romper nada si ya tienes 
 - **fisher** + plugins de fish: `tide`, `autopair.fish`, `nvm.fish`
 - **Node** (LTS) vía `nvm.fish`
 - **tree-sitter-cli** vía `npm install -g`
-- Aplica las configuraciones de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`)
+- Aplica las configuraciones de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`): fish, herdr y nvim
 - Borra el clon de bootstrap `~/init`, ya que chezmoi hizo su propio clon
 
 Al final imprime recordatorios de dos pasos manuales que no se automatizan desde el script:
@@ -33,9 +45,11 @@ Al final imprime recordatorios de dos pasos manuales que no se automatizan desde
    ollama pull qwen2.5-coder:1.5b-base   # autocompletado
    ```
 
-## Aliases de fish
+## 3. Herramientas
 
-Definidos en `~/.config/fish/config.fish`:
+### fish
+
+Aliases definidos en `~/.config/fish/config.fish`:
 
 | Alias | Comando |
 |---|---|
@@ -48,7 +62,7 @@ Definidos en `~/.config/fish/config.fish`:
 
 El explorador de archivos por defecto es **superfile**, con su propio comando corto `spf` (no requiere alias adicional).
 
-## herdr
+### herdr
 
 Prefix: `ctrl+space`
 
@@ -74,3 +88,31 @@ Prefix: `ctrl+space`
 | Toggle sidebar | `prefix+tab` |
 
 Tema: `gruvbox`. Config completa en `~/.config/herdr/config.toml`, aplicada vía chezmoi.
+
+### WezTerm (Windows)
+
+Config en `~/.config/wezterm/wezterm.lua`, aplicada vía chezmoi. Modificador: `ctrl+alt`
+
+| Acción | Tecla |
+|---|---|
+| Split vertical | `ctrl+alt+-` |
+| Split horizontal | `ctrl+alt+=` |
+| Cerrar pane | `ctrl+alt+q` |
+| Toggle zoom | `ctrl+alt+z` |
+| Foco izquierda | `ctrl+alt+h` |
+| Foco abajo | `ctrl+alt+j` |
+| Foco arriba | `ctrl+alt+k` |
+| Foco derecha | `ctrl+alt+l` |
+| Nueva tab | `ctrl+alt+t` |
+
+### Perfil de PowerShell (Windows)
+
+En `Documents/PowerShell/Microsoft.PowerShell_profile.ps1`, aplicado vía chezmoi. Inicializa el prompt de **starship** y define atajos para WSL:
+
+| Alias/función | Comando |
+|---|---|
+| `w` | `wsl` |
+| `wd` | `wsl -d` |
+| `wl` | `wsl -l` |
+| `wu` | `wsl --unregister` |
+| `wi` | `wsl --install Ubuntu --name` |
