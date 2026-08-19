@@ -12,7 +12,13 @@ winget configure --enable
 
 ```powershell
 git clone https://github.com/adrianlaracore/init.git ~/init
+```
+
+```powershell
 winget configure -f ~/init/setup.dsc.yaml --accept-configuration-agreements --disable-interactivity
+```
+
+```powershell
 Remove-Item -Recurse -Force ~/init
 ```
 
