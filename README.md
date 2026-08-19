@@ -4,12 +4,10 @@ Bootstrap del entorno de dev de Adrian —**Windows** (vía `winget configure`) 
 
 ## 1. Windows
 
-Si tu versión de winget es vieja y `winget configure` no anda, primero hay que habilitar el experimental feature (en versiones nuevas ya viene estable y este paso no hace falta — se puede chequear con `winget features`):
+Antes de instalar hay que habilitar la feature de configuración:
 
 ```powershell
-winget settings
-# agregar en el json:
-# "experimentalFeatures": { "configuration": true }
+winget configure --enable
 ```
 
 ```powershell
