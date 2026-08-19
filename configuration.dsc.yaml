@@ -102,14 +102,14 @@ properties:
         id: Microsoft.Coreutils
         source: winget
 
-    # Compilador C, necesario para que nvim-treesitter compile los parsers en Windows
+    # Compilador C (mingw-w64), necesario para que nvim-treesitter compile los parsers en Windows
     - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: zig
+      id: mingw
       directives:
-        description: Install Zig
+        description: Install WinLibs mingw-w64 GCC
         allowPrerelease: true
       settings:
-        id: zig.zig
+        id: BrechtSanders.WinLibs.POSIX.UCRT
         source: winget
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
@@ -132,6 +132,29 @@ properties:
         GetScript: "@{ Result = '' }"
         TestScript: "[Environment]::GetEnvironmentVariable('XDG_CONFIG_HOME', 'User') -eq (Join-Path $env:USERPROFILE '.config')"
         SetScript: "[Environment]::SetEnvironmentVariable('XDG_CONFIG_HOME', (Join-Path $env:USERPROFILE '.config'), 'User')"
+
+    # Apunta CC al gcc de WinLibs y lo agrega al PATH de usuario, para que
+    # tree-sitter build (usado por nvim-treesitter) lo encuentre en vez de cl.exe.
+    - resource: PSDscResources/Script
+      id: gccPath
+      dependsOn:
+        - mingw
+      directives:
+        description: Set CC to WinLibs gcc and add it to PATH
+      settings:
+        GetScript: "@{ Result = '' }"
+        TestScript: |
+          $bin = Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin'
+          $ccOk = [Environment]::GetEnvironmentVariable('CC', 'User') -eq (Join-Path $bin 'gcc.exe')
+          $pathOk = ([Environment]::GetEnvironmentVariable('Path', 'User')) -like "*$bin*"
+          $ccOk -and $pathOk
+        SetScript: |
+          $bin = Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin'
+          [Environment]::SetEnvironmentVariable('CC', (Join-Path $bin 'gcc.exe'), 'User')
+          $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+          if ($userPath -notlike "*$bin*") {
+            [Environment]::SetEnvironmentVariable('Path', "$userPath;$bin", 'User')
+          }
 
     # Claude Code no tiene paquete winget oficial, se instala con su script
     - resource: PSDscResources/Script
