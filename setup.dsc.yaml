@@ -69,12 +69,11 @@ properties:
         TestScript: "(Get-Command node -ErrorAction SilentlyContinue) -ne $null"
         SetScript: |
           $ErrorActionPreference = 'Continue'
-          $PSNativeCommandUseErrorActionPreference = $false
           $env:NVM_HOME = Join-Path $env:LOCALAPPDATA 'nvm'
           $env:NVM_SYMLINK = 'C:\nvm4w\nodejs'
           $nvmExe = Join-Path $env:NVM_HOME 'nvm.exe'
-          & $nvmExe install lts
-          & $nvmExe use lts
+          (& $nvmExe install lts 2>&1) | Out-String | Write-Host
+          (& $nvmExe use lts 2>&1) | Out-String | Write-Host
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: croc
@@ -202,7 +201,9 @@ properties:
       settings:
         GetScript: "@{ Result = '' }"
         TestScript: "(Get-Command claude -ErrorAction SilentlyContinue) -ne $null"
-        SetScript: "$ErrorActionPreference = 'Continue'; $PSNativeCommandUseErrorActionPreference = $false; irm https://claude.ai/install.ps1 | iex"
+        SetScript: |
+          $ErrorActionPreference = 'Continue'
+          (irm https://claude.ai/install.ps1 | iex) 2>&1 | Out-String | Write-Host
 
     # Herdr no tiene paquete winget oficial, se instala con su script (beta en Windows)
     - resource: PSDscResources/Script
@@ -212,7 +213,9 @@ properties:
       settings:
         GetScript: "@{ Result = '' }"
         TestScript: "(Get-Command herdr -ErrorAction SilentlyContinue) -ne $null"
-        SetScript: "$ErrorActionPreference = 'Continue'; $PSNativeCommandUseErrorActionPreference = $false; powershell -ExecutionPolicy Bypass -c \"irm https://herdr.dev/install.ps1 | iex\""
+        SetScript: |
+          $ErrorActionPreference = 'Continue'
+          (powershell -ExecutionPolicy Bypass -c "irm https://herdr.dev/install.ps1 | iex" 2>&1) | Out-String | Write-Host
 
     # Aplica los dotfiles de Windows (wezterm.lua, perfil de PowerShell) via chezmoi.
     - resource: PSDscResources/Script
@@ -228,12 +231,11 @@ properties:
           (Test-Path (Join-Path $env:USERPROFILE 'Documents\PowerShell\Microsoft.PowerShell_profile.ps1'))
         SetScript: |
           $ErrorActionPreference = 'Continue'
-          $PSNativeCommandUseErrorActionPreference = $false
           $sourceDir = Join-Path $env:USERPROFILE '.local\share\chezmoi'
           if (Test-Path (Join-Path $sourceDir '.git')) {
-            chezmoi apply --force
+            (chezmoi apply --force 2>&1) | Out-String | Write-Host
           } else {
-            chezmoi init --apply --force https://github.com/adrianlaracore/init.git
+            (chezmoi init --apply --force https://github.com/adrianlaracore/init.git 2>&1) | Out-String | Write-Host
           }
 
   configurationVersion: 0.2.0
