@@ -57,6 +57,24 @@ properties:
         id: CoreyButler.NVMforWindows
         source: winget
 
+    # Instala y activa la LTS de Node apenas se instala nvm
+    - resource: PSDscResources/Script
+      id: nodeLts
+      dependsOn:
+        - nvm
+      directives:
+        description: Install and activate Node LTS via nvm
+      settings:
+        GetScript: "@{ Result = '' }"
+        TestScript: "(Get-Command node -ErrorAction SilentlyContinue) -ne $null"
+        SetScript: |
+          $ErrorActionPreference = 'Continue'
+          $env:NVM_HOME = Join-Path $env:LOCALAPPDATA 'nvm'
+          $env:NVM_SYMLINK = 'C:\nvm4w\nodejs'
+          $nvmExe = Join-Path $env:NVM_HOME 'nvm.exe'
+          & $nvmExe install lts
+          & $nvmExe use lts
+
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: croc
       directives:
@@ -206,5 +224,19 @@ properties:
         GetScript: "@{ Result = '' }"
         TestScript: "Test-Path (Join-Path $env:USERPROFILE '.config\\wezterm\\wezterm.lua')"
         SetScript: "$ErrorActionPreference = 'Continue'; chezmoi init --apply https://github.com/adrianlaracore/init.git"
+
+    # Borra el clon de bootstrap ~/init, ya que chezmoi hizo su propio clon
+    - resource: PSDscResources/Script
+      id: cleanupBootstrap
+      dependsOn:
+        - dotfiles
+      directives:
+        description: Remove bootstrap clone
+      settings:
+        GetScript: "@{ Result = '' }"
+        TestScript: "-not (Test-Path (Join-Path $env:USERPROFILE 'init'))"
+        SetScript: |
+          Set-Location $env:USERPROFILE
+          Remove-Item -Recurse -Force (Join-Path $env:USERPROFILE 'init')
 
   configurationVersion: 0.2.0

@@ -23,9 +23,11 @@ Las flags `--accept-configuration-agreements --disable-interactivity` evitan el 
 - **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`, `Starship.Starship`, `ajeetdsouza.zoxide`, `Microsoft.Coreutils`, `sharkdp.fd`, `BurntSushi.ripgrep.MSVC`, `BrechtSanders.WinLibs.POSIX.UCRT`
 - **fd** y **ripgrep**: los usa el picker de archivos/grep de `snacks.nvim` (prioriza `fd`/`rg` antes que `find`/`grep`)
 - **WinLibs (mingw-w64 gcc)**: sirve como compilador C para que `nvim-treesitter` compile los parsers en Windows. Además de instalarlo, el YAML setea `CC` (a nivel de usuario) apuntando a su `gcc.exe` y agrega `mingw64\bin` al `PATH`, porque `tree-sitter build` en Windows por defecto intenta usar `cl.exe` (MSVC) sin importar qué compilador tengas instalado, a menos que `CC` esté seteado explícitamente
+- Apenas se instala `nvm`, corre `nvm install lts` y `nvm use lts` para dejar Node activo sin pasos manuales
 - **Claude Code** y **herdr** (beta en Windows): sin paquete winget oficial, se instalan con sus scripts propios
 - Setea `XDG_CONFIG_HOME=%USERPROFILE%\.config` a nivel de usuario, para que Neovim (que en Windows por defecto busca su config en `%LOCALAPPDATA%\nvim`) use la misma carpeta `dot_config` que ya comparten WSL y Windows
 - Aplica los dotfiles de Windows de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`): WezTerm, perfil de PowerShell, herdr y nvim
+- Borra el clon de bootstrap `~/init`, ya que chezmoi hizo su propio clon (mismo comportamiento que `install.sh` en WSL)
 
 > **Importante**: `CC` y `XDG_CONFIG_HOME` quedan seteadas como variables de usuario en el registro de Windows, pero cualquier terminal que ya estuviera abierta (incluso la misma desde la que corriste `winget configure`) sigue viendo el entorno viejo — Windows no les avisa que hay variables nuevas. Cerrá la terminal por completo y abrí una nueva antes de usar `nvim`.
 
