@@ -1,4 +1,10 @@
 onboarding = false
+
+{{- if eq .chezmoi.os "windows" }}
+[terminal]
+default_shell = "pwsh.exe"
+{{- end }}
+
 [keys]
 prefix = "ctrl+space"
 split_horizontal = "prefix+minus"
