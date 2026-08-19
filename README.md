@@ -10,7 +10,8 @@ git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && wing
 
 ### Qué instala `configuration.dsc.yaml`
 
-- **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`, `Starship.Starship`, `ajeetdsouza.zoxide`
+- **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`, `Starship.Starship`, `ajeetdsouza.zoxide`, `Microsoft.Coreutils`, `zig.zig`
+- **zig**: sirve como compilador C (`zig cc`) para que `nvim-treesitter` pueda compilar los parsers en Windows, donde no hay `gcc` por defecto
 - **Claude Code** y **herdr** (beta en Windows): sin paquete winget oficial, se instalan con sus scripts propios
 - Setea `XDG_CONFIG_HOME=%USERPROFILE%\.config` a nivel de usuario, para que Neovim (que en Windows por defecto busca su config en `%LOCALAPPDATA%\nvim`) use la misma carpeta `dot_config` que ya comparten WSL y Windows
 - Aplica los dotfiles de Windows de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`): WezTerm, perfil de PowerShell, herdr y nvim

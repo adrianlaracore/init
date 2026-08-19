@@ -94,6 +94,25 @@ properties:
         source: winget
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: coreutils
+      directives:
+        description: Install Coreutils for Windows
+        allowPrerelease: true
+      settings:
+        id: Microsoft.Coreutils
+        source: winget
+
+    # Compilador C, necesario para que nvim-treesitter compile los parsers en Windows
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: zig
+      directives:
+        description: Install Zig
+        allowPrerelease: true
+      settings:
+        id: zig.zig
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: zoxide
       directives:
         description: Install zoxide
