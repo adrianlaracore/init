@@ -6,7 +6,7 @@ config.enable_tab_bar = false
 config.font = wezterm.font("JetBrainsMono Nerd Font Mono", { weight = "Bold" })
 config.font_size = 10.0
 
-config.default_prog = { "C:\\Users\\adrian\\AppData\\Local\\Microsoft\\WindowsApps\\pwsh.exe" }
+config.default_prog = { os.getenv("LOCALAPPDATA") .. "\\Microsoft\\WindowsApps\\pwsh.exe" }
 
 config.window_background_opacity = 0.85
 config.win32_system_backdrop = "Acrylic"

@@ -112,14 +112,4 @@ cat <<'EOF'
 ==> Instalación completa. Abre una terminal nueva para entrar directo a fish
     con todo aplicado (alias, plugins, PATH).
 
-Pasos manuales pendientes (no automatizables desde aquí):
-
-  1. Docker Desktop (Windows) → Settings → Resources → WSL Integration
-     → activa el toggle para esta distro.
-
-  2. ollama (opcional), con los modelos de Qwen recomendados:
-       curl -fsSL https://ollama.com/install.sh | sh
-       ollama pull qwen3-coder:30b-a3b
-       ollama pull qwen2.5-coder:1.5b-base
-
 EOF

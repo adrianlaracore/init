@@ -52,16 +52,6 @@ El script es idempotente: se puede volver a correr sin romper nada si ya tienes 
 - Aplica las configuraciones de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`): fish, herdr y nvim
 - Borra el clon de bootstrap `~/init`, ya que chezmoi hizo su propio clon
 
-Al final imprime recordatorios de dos pasos manuales que no se automatizan desde el script:
-
-1. Activar **WSL Integration** en Docker Desktop (Windows) → Settings → Resources.
-2. **ollama** (opcional), con los modelos de Qwen recomendados:
-   ```bash
-   curl -fsSL https://ollama.com/install.sh | sh
-   ollama pull qwen3-coder:30b-a3b       # tareas pesadas
-   ollama pull qwen2.5-coder:1.5b-base   # autocompletado
-   ```
-
 ## 3. Herramientas
 
 ### fish
