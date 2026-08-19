@@ -223,6 +223,13 @@ properties:
       settings:
         GetScript: "@{ Result = '' }"
         TestScript: "Test-Path (Join-Path $env:USERPROFILE '.config\\wezterm\\wezterm.lua')"
-        SetScript: "$ErrorActionPreference = 'Continue'; chezmoi init --apply https://github.com/adrianlaracore/init.git"
+        SetScript: |
+          $ErrorActionPreference = 'Continue'
+          $sourceDir = Join-Path $env:USERPROFILE '.local\share\chezmoi'
+          if (Test-Path (Join-Path $sourceDir '.git')) {
+            chezmoi apply
+          } else {
+            chezmoi init --apply https://github.com/adrianlaracore/init.git
+          }
 
   configurationVersion: 0.2.0
