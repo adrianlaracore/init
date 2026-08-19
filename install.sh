@@ -6,9 +6,12 @@ set -euo pipefail
 # depender de que .profile se haya vuelto a leer.
 export PATH="$HOME/.local/bin:$PATH"
 
+echo "==> carpeta desktop"
+mkdir -p "$HOME/desktop"
+
 echo "==> apt packages"
 sudo apt update
-sudo apt install -y zstd zoxide fzf fish lsd
+sudo apt install -y zstd zoxide fzf fish lsd unzip zip gcc
 
 echo "==> neovim (binario manual, no apt)"
 if ! command -v nvim >/dev/null 2>&1; then
@@ -20,11 +23,26 @@ else
     echo "nvim ya está instalado, se omite"
 fi
 
+echo "==> lazygit (binario manual, no apt)"
+if ! command -v lazygit >/dev/null 2>&1; then
+    tmp_dir="$(mktemp -d)"
+    lazygit_version="$(curl -fsSL "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')"
+    curl -fsSL -o "$tmp_dir/lazygit.tar.gz" "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${lazygit_version}_Linux_x86_64.tar.gz"
+    tar -xf "$tmp_dir/lazygit.tar.gz" -C "$tmp_dir" lazygit
+    sudo install "$tmp_dir/lazygit" /usr/local/bin
+    rm -rf "$tmp_dir"
+else
+    echo "lazygit ya está instalado, se omite"
+fi
+
 echo "==> Claude Code"
 curl -fsSL https://claude.ai/install.sh | bash
 
 echo "==> herdr"
 curl -fsSL https://herdr.dev/install.sh | sh
+
+echo "==> superfile"
+bash -c "$(curl -sLo- https://superfile.dev/install.sh)"
 
 echo "==> chezmoi"
 if ! command -v chezmoi >/dev/null 2>&1; then
@@ -45,9 +63,12 @@ fish -c "
 echo "==> Node vía nvm.fish"
 fish -c "nvm install lts"
 
+echo "==> tree-sitter-cli vía npm"
+fish -c "npm install -g tree-sitter-cli"
+
 echo "==> variables universales de fish"
 fish -c "set -U nvm_default_version v24.18.0"
-fish -c "tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Solid --prompt_spacing=Sparse --icons='Many icons' --transient=Yes"
+fish -c "tide configure --auto --style=Lean --prompt_colors='True color' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Sparse --icons='Many icons' --transient=No"
 fish -c "set -U tide_right_prompt_items status cmd_duration context jobs direnv bun node python rustc java php pulumi ruby go gcloud distrobox toolbox terraform aws nix_shell crystal elixir zig"
 
 echo "==> shell por defecto: fish"
@@ -67,6 +88,12 @@ fi
 
 echo "==> chezmoi: clonando y aplicando dotfiles"
 chezmoi init --apply adrianlaracore/init
+
+echo "==> limpiando clon de bootstrap"
+# chezmoi ya hizo su propio clon en ~/.local/share/chezmoi; este ~/init
+# solo servía para arrancar el script, así que ya no hace falta.
+cd "$HOME"
+rm -rf "$HOME/init"
 
 cat <<'EOF'
 

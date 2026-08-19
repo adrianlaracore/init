@@ -12,12 +12,16 @@ El script es idempotente: se puede volver a correr sin romper nada si ya tienes 
 
 ## Qué instala `install.sh`
 
-- **apt**: `zstd`, `zoxide`, `fzf`, `fish`, `lsd`
+- Crea `~/desktop`, que queda como carpeta por defecto al abrir una terminal nueva
+- **apt**: `zstd`, `zoxide`, `fzf`, `fish`, `lsd`, `unzip`, `zip`, `gcc`
 - **neovim**: binario manual (appimage más reciente) en `/usr/local/bin/nvim`
-- **Claude Code**, **herdr**, **chezmoi**: vía sus instaladores oficiales por curl
+- **lazygit**: binario manual (última release de GitHub) en `/usr/local/bin/lazygit`, con alias `gg`
+- **Claude Code**, **herdr**, **superfile**, **chezmoi**: vía sus instaladores oficiales por curl
 - **fisher** + plugins de fish: `tide`, `autopair.fish`, `nvm.fish`
 - **Node** (LTS) vía `nvm.fish`
-- Aplica las configuraciones de este repo con `chezmoi init --apply`
+- **tree-sitter-cli** vía `npm install -g`
+- Aplica las configuraciones de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`)
+- Borra el clon de bootstrap `~/init`, ya que chezmoi hizo su propio clon
 
 Al final imprime recordatorios de dos pasos manuales que no se automatizan desde el script:
 
@@ -28,6 +32,21 @@ Al final imprime recordatorios de dos pasos manuales que no se automatizan desde
    ollama pull qwen3-coder:30b-a3b       # tareas pesadas
    ollama pull qwen2.5-coder:1.5b-base   # autocompletado
    ```
+
+## Aliases de fish
+
+Definidos en `~/.config/fish/config.fish`:
+
+| Alias | Comando |
+|---|---|
+| `ls` | `lsd --icon=auto -la --group-directories-first -t` |
+| `h` | `herdr` |
+| `v` | `nvim` |
+| `c` | `claude` |
+| `gg` | `lazygit` |
+| `cz` | `chezmoi` |
+
+El explorador de archivos por defecto es **superfile**, con su propio comando corto `spf` (no requiere alias adicional).
 
 ## herdr
 
