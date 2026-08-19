@@ -222,7 +222,9 @@ properties:
         description: Apply dotfiles with chezmoi
       settings:
         GetScript: "@{ Result = '' }"
-        TestScript: "Test-Path (Join-Path $env:USERPROFILE '.config\\wezterm\\wezterm.lua')"
+        TestScript: |
+          (Test-Path (Join-Path $env:USERPROFILE '.config\wezterm\wezterm.lua')) -and
+          (Test-Path (Join-Path $env:USERPROFILE 'Documents\PowerShell\Microsoft.PowerShell_profile.ps1'))
         SetScript: |
           $ErrorActionPreference = 'Continue'
           $sourceDir = Join-Path $env:USERPROFILE '.local\share\chezmoi'
