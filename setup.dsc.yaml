@@ -30,6 +30,16 @@ properties:
         id: wez.wezterm
         source: winget
 
+    # Fuente que usa wezterm.lua (config.font)
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: jetBrainsMonoNerdFont
+      directives:
+        description: Install JetBrainsMono Nerd Font
+        allowPrerelease: true
+      settings:
+        id: DEVCOM.JetBrainsMonoNerdFont
+        source: winget
+
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: neovim
       directives:

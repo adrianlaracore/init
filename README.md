@@ -24,7 +24,7 @@ Las flags `--accept-configuration-agreements --disable-interactivity` evitan el 
 
 ### Qué instala `setup.dsc.yaml`
 
-- **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`, `Starship.Starship`, `ajeetdsouza.zoxide`, `Microsoft.Coreutils`, `sharkdp.fd`, `BurntSushi.ripgrep.MSVC`, `BrechtSanders.WinLibs.POSIX.UCRT`
+- **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `DEVCOM.JetBrainsMonoNerdFont`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`, `Starship.Starship`, `ajeetdsouza.zoxide`, `Microsoft.Coreutils`, `sharkdp.fd`, `BurntSushi.ripgrep.MSVC`, `BrechtSanders.WinLibs.POSIX.UCRT`
 - **fd** y **ripgrep**: los usa el picker de archivos/grep de `snacks.nvim` (prioriza `fd`/`rg` antes que `find`/`grep`)
 - **WinLibs (mingw-w64 gcc)**: sirve como compilador C para que `nvim-treesitter` compile los parsers en Windows. Además de instalarlo, el YAML setea `CC` (a nivel de usuario) apuntando a su `gcc.exe` y agrega `mingw64\bin` al `PATH`, porque `tree-sitter build` en Windows por defecto intenta usar `cl.exe` (MSVC) sin importar qué compilador tengas instalado, a menos que `CC` esté seteado explícitamente
 - Apenas se instala `nvm`, corre `nvm install lts` y `nvm use lts` para dejar Node activo sin pasos manuales
