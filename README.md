@@ -11,7 +11,9 @@ winget configure --enable
 ```
 
 ```powershell
-git clone https://github.com/adrianlaracore/init.git ~/init && winget configure -f ~/init/setup.dsc.yaml --accept-configuration-agreements --disable-interactivity ; Remove-Item -Recurse -Force ~/init
+git clone https://github.com/adrianlaracore/init.git ~/init
+winget configure -f ~/init/setup.dsc.yaml --accept-configuration-agreements --disable-interactivity
+Remove-Item -Recurse -Force ~/init
 ```
 
 Las flags `--accept-configuration-agreements --disable-interactivity` evitan el prompt interactivo donde winget pide aceptar que la configuración va a instalar software y cambiar settings — sin ellas, el comando se queda esperando que confirmes a mano.
