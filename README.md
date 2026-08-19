@@ -1,6 +1,6 @@
 # Entorno de desarrollo
 
-Bootstrap del entorno de dev de Adrian —**Windows** (vía `winget configure`) y **WSL2 + fish** (vía `install.sh`)— más las configuraciones (dotfiles) gestionadas con [chezmoi](https://www.chezmoi.io/). Ambos comandos aplican los dotfiles de este mismo repo; `home/.chezmoiignore` filtra automáticamente qué le corresponde a cada sistema operativo.
+Bootstrap del entorno de dev de Adrian —**Windows** (vía `winget configure`) y **WSL2 + fish** (vía `setup.sh`)— más las configuraciones (dotfiles) gestionadas con [chezmoi](https://www.chezmoi.io/). Ambos comandos aplican los dotfiles de este mismo repo; `home/.chezmoiignore` filtra automáticamente qué le corresponde a cada sistema operativo.
 
 ## 1. Windows
 
@@ -13,12 +13,12 @@ winget settings
 ```
 
 ```powershell
-git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && winget configure -f configuration.dsc.yaml --accept-configuration-agreements --disable-interactivity
+git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && winget configure -f setup.dsc.yaml --accept-configuration-agreements --disable-interactivity
 ```
 
 Las flags `--accept-configuration-agreements --disable-interactivity` evitan el prompt interactivo donde winget pide aceptar que la configuración va a instalar software y cambiar settings — sin ellas, el comando se queda esperando que confirmes a mano.
 
-### Qué instala `configuration.dsc.yaml`
+### Qué instala `setup.dsc.yaml`
 
 - **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`, `Starship.Starship`, `ajeetdsouza.zoxide`, `Microsoft.Coreutils`, `sharkdp.fd`, `BurntSushi.ripgrep.MSVC`, `BrechtSanders.WinLibs.POSIX.UCRT`
 - **fd** y **ripgrep**: los usa el picker de archivos/grep de `snacks.nvim` (prioriza `fd`/`rg` antes que `find`/`grep`)
@@ -27,19 +27,19 @@ Las flags `--accept-configuration-agreements --disable-interactivity` evitan el 
 - **Claude Code** y **herdr** (beta en Windows): sin paquete winget oficial, se instalan con sus scripts propios
 - Setea `XDG_CONFIG_HOME=%USERPROFILE%\.config` a nivel de usuario, para que Neovim (que en Windows por defecto busca su config en `%LOCALAPPDATA%\nvim`) use la misma carpeta `dot_config` que ya comparten WSL y Windows
 - Aplica los dotfiles de Windows de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`): WezTerm, perfil de PowerShell, herdr y nvim
-- Borra el clon de bootstrap `~/init`, ya que chezmoi hizo su propio clon (mismo comportamiento que `install.sh` en WSL)
+- Borra el clon de bootstrap `~/init`, ya que chezmoi hizo su propio clon (mismo comportamiento que `setup.sh` en WSL)
 
 > **Importante**: `CC` y `XDG_CONFIG_HOME` quedan seteadas como variables de usuario en el registro de Windows, pero cualquier terminal que ya estuviera abierta (incluso la misma desde la que corriste `winget configure`) sigue viendo el entorno viejo — Windows no les avisa que hay variables nuevas. Cerrá la terminal por completo y abrí una nueva antes de usar `nvim`.
 
 ## 2. WSL
 
 ```bash
-git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && bash install.sh
+git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && bash setup.sh
 ```
 
 El script es idempotente: se puede volver a correr sin romper nada si ya tienes algunas herramientas instaladas.
 
-### Qué instala `install.sh`
+### Qué instala `setup.sh`
 
 - Crea `~/desktop`, que queda como carpeta por defecto al abrir una terminal nueva
 - **apt**: `zstd`, `zoxide`, `fzf`, `fish`, `lsd`, `unzip`, `zip`, `gcc`

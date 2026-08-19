@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
-# Uso: winget configure -f configuration.dsc.yaml --accept-configuration-agreements --disable-interactivity
+# Uso: winget configure -f setup.dsc.yaml --accept-configuration-agreements --disable-interactivity
 
 properties:
   resources:
