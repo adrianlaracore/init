@@ -229,9 +229,9 @@ properties:
           $ErrorActionPreference = 'Continue'
           $sourceDir = Join-Path $env:USERPROFILE '.local\share\chezmoi'
           if (Test-Path (Join-Path $sourceDir '.git')) {
-            chezmoi apply
+            chezmoi apply --force
           } else {
-            chezmoi init --apply https://github.com/adrianlaracore/init.git
+            chezmoi init --apply --force https://github.com/adrianlaracore/init.git
           }
 
   configurationVersion: 0.2.0

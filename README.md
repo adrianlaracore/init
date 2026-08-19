@@ -11,16 +11,16 @@ winget configure --enable
 ```
 
 ```powershell
-git clone https://github.com/adrianlaracore/init.git ~/init
+git clone https://github.com/adrianlaracore/init.git ./init
 ```
 
 ```powershell
-winget configure -f ~/init/setup.dsc.yaml --accept-configuration-agreements --disable-interactivity ; Remove-Item -Recurse -Force ~/init
+winget configure -f ./init/setup.dsc.yaml --accept-configuration-agreements --disable-interactivity ; Remove-Item -Recurse -Force ./init
 ```
 
 Las flags `--accept-configuration-agreements --disable-interactivity` evitan el prompt interactivo donde winget pide aceptar que la configuración va a instalar software y cambiar settings — sin ellas, el comando se queda esperando que confirmes a mano.
 
-> Importante: no hagas `cd ~/init` antes de correr `winget configure`, y no muevas el borrado de `~/init` adentro del propio `setup.dsc.yaml` — `winget configure` deja su propio proceso con esa carpeta como directorio de trabajo mientras corre (para poder resolver rutas relativas dentro de la config), así que cualquier intento de borrarla desde un resource del mismo config choca con `IOException: ... being used by another process`. Por eso el borrado va al final del comando, después de que winget ya cerró y soltó el lock.
+> Importante: usá `./init` (no `~/init`) — PowerShell no expande `~` cuando se lo pasás como argumento a un ejecutable externo (`git.exe`, `winget.exe`), así que termina creando una carpeta literal llamada `~`. Tampoco hagas `cd ./init` antes de correr `winget configure`, y no muevas el borrado de `./init` adentro del propio `setup.dsc.yaml` — `winget configure` deja su propio proceso con esa carpeta como directorio de trabajo mientras corre (para poder resolver rutas relativas dentro de la config), así que cualquier intento de borrarla desde un resource del mismo config choca con `IOException: ... being used by another process`. Por eso el borrado va al final del comando, después de que winget ya cerró y soltó el lock.
 
 ### Qué instala `setup.dsc.yaml`
 
@@ -30,9 +30,9 @@ Las flags `--accept-configuration-agreements --disable-interactivity` evitan el 
 - Apenas se instala `nvm`, corre `nvm install lts` y `nvm use lts` para dejar Node activo sin pasos manuales
 - **Claude Code** y **herdr** (beta en Windows): sin paquete winget oficial, se instalan con sus scripts propios
 - Setea `XDG_CONFIG_HOME=%USERPROFILE%\.config` a nivel de usuario, para que Neovim (que en Windows por defecto busca su config en `%LOCALAPPDATA%\nvim`) use la misma carpeta `dot_config` que ya comparten WSL y Windows
-- Aplica los dotfiles de Windows de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`): WezTerm, perfil de PowerShell, herdr y nvim
+- Aplica los dotfiles de Windows de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `./init`): WezTerm, perfil de PowerShell, herdr y nvim
 
-El borrado del clon de bootstrap `~/init` **no** está en el YAML (a diferencia de `setup.sh` en WSL) — va como último paso del comando de instalación, por la razón explicada arriba.
+El borrado del clon de bootstrap `./init` **no** está en el YAML (a diferencia de `setup.sh` en WSL) — va como último paso del comando de instalación, por la razón explicada arriba.
 
 > **Importante**: `CC` y `XDG_CONFIG_HOME` quedan seteadas como variables de usuario en el registro de Windows, pero cualquier terminal que ya estuviera abierta (incluso la misma desde la que corriste `winget configure`) sigue viendo el entorno viejo — Windows no les avisa que hay variables nuevas. Cerrá la terminal por completo y abrí una nueva antes de usar `nvim`.
 
