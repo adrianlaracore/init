@@ -102,6 +102,18 @@ properties:
         id: ajeetdsouza.zoxide
         source: winget
 
+    # Neovim (y cualquier otra herramienta que respete XDG) en Windows busca su
+    # config en %LOCALAPPDATA% por defecto; esto la apunta a ~/.config, la misma
+    # carpeta que ya gestiona chezmoi (dot_config) tanto en WSL como en Windows.
+    - resource: PSDscResources/Script
+      id: xdgConfigHome
+      directives:
+        description: Set XDG_CONFIG_HOME to ~/.config
+      settings:
+        GetScript: "@{ Result = '' }"
+        TestScript: "[Environment]::GetEnvironmentVariable('XDG_CONFIG_HOME', 'User') -eq (Join-Path $env:USERPROFILE '.config')"
+        SetScript: "[Environment]::SetEnvironmentVariable('XDG_CONFIG_HOME', (Join-Path $env:USERPROFILE '.config'), 'User')"
+
     # Claude Code no tiene paquete winget oficial, se instala con su script
     - resource: PSDscResources/Script
       id: claudeCode
