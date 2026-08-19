@@ -51,6 +51,13 @@ else
     echo "chezmoi ya está instalado, se omite"
 fi
 
+echo "==> croc"
+if ! command -v croc >/dev/null 2>&1; then
+    curl https://getcroc.schollz.com | bash
+else
+    echo "croc ya está instalado, se omite"
+fi
+
 echo "==> fisher + plugins"
 fish -c "
     if not functions -q fisher
@@ -62,6 +69,7 @@ fish -c "
 
 echo "==> Node vía nvm.fish"
 fish -c "nvm install lts"
+fish -c "nvm use lts"
 
 echo "==> tree-sitter-cli vía npm"
 fish -c "npm install -g tree-sitter-cli"

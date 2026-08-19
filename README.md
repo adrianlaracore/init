@@ -16,7 +16,7 @@ El script es idempotente: se puede volver a correr sin romper nada si ya tienes 
 - **apt**: `zstd`, `zoxide`, `fzf`, `fish`, `lsd`, `unzip`, `zip`, `gcc`
 - **neovim**: binario manual (appimage más reciente) en `/usr/local/bin/nvim`
 - **lazygit**: binario manual (última release de GitHub) en `/usr/local/bin/lazygit`, con alias `gg`
-- **Claude Code**, **herdr**, **superfile**, **chezmoi**: vía sus instaladores oficiales por curl
+- **Claude Code**, **herdr**, **superfile**, **chezmoi**, **croc**: vía sus instaladores oficiales por curl
 - **fisher** + plugins de fish: `tide`, `autopair.fish`, `nvm.fish`
 - **Node** (LTS) vía `nvm.fish`
 - **tree-sitter-cli** vía `npm install -g`
