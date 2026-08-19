@@ -92,7 +92,7 @@ properties:
       settings:
         GetScript: "@{ Result = '' }"
         TestScript: "(Get-Command claude -ErrorAction SilentlyContinue) -ne $null"
-        SetScript: "irm https://claude.ai/install.ps1 | iex"
+        SetScript: "$ErrorActionPreference = 'Continue'; irm https://claude.ai/install.ps1 | iex"
 
     # Herdr no tiene paquete winget oficial, se instala con su script (beta en Windows)
     - resource: PSDscResources/Script
@@ -102,7 +102,7 @@ properties:
       settings:
         GetScript: "@{ Result = '' }"
         TestScript: "(Get-Command herdr -ErrorAction SilentlyContinue) -ne $null"
-        SetScript: "powershell -ExecutionPolicy Bypass -c \"irm https://herdr.dev/install.ps1 | iex\""
+        SetScript: "$ErrorActionPreference = 'Continue'; powershell -ExecutionPolicy Bypass -c \"irm https://herdr.dev/install.ps1 | iex\""
 
     # Aplica los dotfiles de Windows (wezterm.lua, perfil de PowerShell) via chezmoi.
     - resource: PSDscResources/Script
@@ -114,6 +114,6 @@ properties:
       settings:
         GetScript: "@{ Result = '' }"
         TestScript: "Test-Path (Join-Path $env:USERPROFILE '.config\\wezterm\\wezterm.lua')"
-        SetScript: "chezmoi init --apply https://github.com/adrianlaracore/init.git"
+        SetScript: "$ErrorActionPreference = 'Continue'; chezmoi init --apply https://github.com/adrianlaracore/init.git"
 
   configurationVersion: 0.2.0
