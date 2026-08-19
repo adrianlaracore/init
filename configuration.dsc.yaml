@@ -84,6 +84,24 @@ properties:
         id: tree-sitter.tree-sitter-cli
         source: winget
 
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: starship
+      directives:
+        description: Install Starship
+        allowPrerelease: true
+      settings:
+        id: Starship.Starship
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: zoxide
+      directives:
+        description: Install zoxide
+        allowPrerelease: true
+      settings:
+        id: ajeetdsouza.zoxide
+        source: winget
+
     # Claude Code no tiene paquete winget oficial, se instala con su script
     - resource: PSDscResources/Script
       id: claudeCode

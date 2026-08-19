@@ -10,7 +10,7 @@ git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && wing
 
 ### Qué instala `configuration.dsc.yaml`
 
-- **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`
+- **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`, `Starship.Starship`, `ajeetdsouza.zoxide`
 - **Claude Code** y **herdr** (beta en Windows): sin paquete winget oficial, se instalan con sus scripts propios
 - Aplica los dotfiles de Windows de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`): WezTerm, perfil de PowerShell, herdr y nvim
 
@@ -107,7 +107,7 @@ Config en `~/.config/wezterm/wezterm.lua`, aplicada vía chezmoi. Modificador: `
 
 ### Perfil de PowerShell (Windows)
 
-En `Documents/PowerShell/Microsoft.PowerShell_profile.ps1`, aplicado vía chezmoi. Inicializa el prompt de **starship** y define atajos para WSL:
+En `Documents/PowerShell/Microsoft.PowerShell_profile.ps1`, aplicado vía chezmoi. Inicializa el prompt de **starship** y **zoxide**, y define atajos para WSL además de los mismos alias que fish (salvo `ls`):
 
 | Alias/función | Comando |
 |---|---|
@@ -116,3 +116,8 @@ En `Documents/PowerShell/Microsoft.PowerShell_profile.ps1`, aplicado vía chezmo
 | `wl` | `wsl -l` |
 | `wu` | `wsl --unregister` |
 | `wi` | `wsl --install Ubuntu --name` |
+| `h` | `herdr` |
+| `v` | `nvim` |
+| `c` | `claude` |
+| `gg` | `lazygit` |
+| `cz` | `chezmoi` |
