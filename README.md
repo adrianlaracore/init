@@ -13,10 +13,12 @@ winget settings
 ```
 
 ```powershell
-git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && winget configure -f setup.dsc.yaml --accept-configuration-agreements --disable-interactivity
+git clone https://github.com/adrianlaracore/init.git ~/init && winget configure -f ~/init/setup.dsc.yaml --accept-configuration-agreements --disable-interactivity
 ```
 
 Las flags `--accept-configuration-agreements --disable-interactivity` evitan el prompt interactivo donde winget pide aceptar que la configuración va a instalar software y cambiar settings — sin ellas, el comando se queda esperando que confirmes a mano.
+
+> Importante: no hagas `cd ~/init` antes de correr `winget configure` — si el proceso de winget queda parado *dentro* de esa carpeta como directorio de trabajo, el paso final que la borra falla con `IOException: ... being used by another process`, porque Windows no deja borrar una carpeta mientras algún proceso la tiene como CWD.
 
 ### Qué instala `setup.dsc.yaml`
 

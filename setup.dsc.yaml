@@ -237,6 +237,10 @@ properties:
         TestScript: "-not (Test-Path (Join-Path $env:USERPROFILE 'init'))"
         SetScript: |
           Set-Location $env:USERPROFILE
-          Remove-Item -Recurse -Force (Join-Path $env:USERPROFILE 'init')
+          try {
+            Remove-Item -Recurse -Force (Join-Path $env:USERPROFILE 'init') -ErrorAction Stop
+          } catch {
+            Write-Output "No se pudo borrar ~/init (puede seguir en uso); borralo a mano si hace falta."
+          }
 
   configurationVersion: 0.2.0
