@@ -68,14 +68,18 @@ fish -c "
 "
 
 echo "==> Node vía nvm.fish"
-fish -c "nvm install lts"
-fish -c "nvm use lts"
-
-echo "==> tree-sitter-cli vía npm"
-fish -c "npm install -g tree-sitter-cli"
+# nvm use y el npm install van en el mismo `fish -c`: el PATH que arma
+# `nvm use` es una variable global de ese proceso, no sobrevive a otra
+# invocación de `fish -c` (y el auto-use de conf.d/nvm.fish solo corre en
+# shells interactivos, que no es el caso acá).
+fish -c "
+    nvm install lts
+    nvm use lts
+    set -U nvm_default_version (nvm current)
+    npm install -g tree-sitter-cli
+"
 
 echo "==> variables universales de fish"
-fish -c "set -U nvm_default_version v24.18.0"
 fish -c "tide configure --auto --style=Lean --prompt_colors='True color' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Sparse --icons='Many icons' --transient=No"
 fish -c "set -U tide_right_prompt_items status cmd_duration context jobs direnv bun node python rustc java php pulumi ruby go gcloud distrobox toolbox terraform aws nix_shell crystal elixir zig"
 
