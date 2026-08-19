@@ -4,17 +4,30 @@ Bootstrap del entorno de dev de Adrian —**Windows** (vía `winget configure`) 
 
 ## 1. Windows
 
+Si tu versión de winget es vieja y `winget configure` no anda, primero hay que habilitar el experimental feature (en versiones nuevas ya viene estable y este paso no hace falta — se puede chequear con `winget features`):
+
 ```powershell
-git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && winget configure -f configuration.dsc.yaml
+winget settings
+# agregar en el json:
+# "experimentalFeatures": { "configuration": true }
 ```
+
+```powershell
+git clone https://github.com/adrianlaracore/init.git ~/init && cd ~/init && winget configure -f configuration.dsc.yaml --accept-configuration-agreements --disable-interactivity
+```
+
+Las flags `--accept-configuration-agreements --disable-interactivity` evitan el prompt interactivo donde winget pide aceptar que la configuración va a instalar software y cambiar settings — sin ellas, el comando se queda esperando que confirmes a mano.
 
 ### Qué instala `configuration.dsc.yaml`
 
-- **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`, `Starship.Starship`, `ajeetdsouza.zoxide`, `Microsoft.Coreutils`, `BrechtSanders.WinLibs.POSIX.UCRT`
+- **winget**: `Git.Git`, `Microsoft.PowerShell`, `wez.wezterm`, `Neovim.Neovim`, `JesseDuffield.lazygit`, `CoreyButler.NVMforWindows`, `schollz.croc`, `twpayne.chezmoi`, `tree-sitter.tree-sitter-cli`, `Starship.Starship`, `ajeetdsouza.zoxide`, `Microsoft.Coreutils`, `sharkdp.fd`, `BurntSushi.ripgrep.MSVC`, `BrechtSanders.WinLibs.POSIX.UCRT`
+- **fd** y **ripgrep**: los usa el picker de archivos/grep de `snacks.nvim` (prioriza `fd`/`rg` antes que `find`/`grep`)
 - **WinLibs (mingw-w64 gcc)**: sirve como compilador C para que `nvim-treesitter` compile los parsers en Windows. Además de instalarlo, el YAML setea `CC` (a nivel de usuario) apuntando a su `gcc.exe` y agrega `mingw64\bin` al `PATH`, porque `tree-sitter build` en Windows por defecto intenta usar `cl.exe` (MSVC) sin importar qué compilador tengas instalado, a menos que `CC` esté seteado explícitamente
 - **Claude Code** y **herdr** (beta en Windows): sin paquete winget oficial, se instalan con sus scripts propios
 - Setea `XDG_CONFIG_HOME=%USERPROFILE%\.config` a nivel de usuario, para que Neovim (que en Windows por defecto busca su config en `%LOCALAPPDATA%\nvim`) use la misma carpeta `dot_config` que ya comparten WSL y Windows
 - Aplica los dotfiles de Windows de este repo con `chezmoi init --apply` (queda en `~/.local/share/chezmoi`, no en `~/init`): WezTerm, perfil de PowerShell, herdr y nvim
+
+> **Importante**: `CC` y `XDG_CONFIG_HOME` quedan seteadas como variables de usuario en el registro de Windows, pero cualquier terminal que ya estuviera abierta (incluso la misma desde la que corriste `winget configure`) sigue viendo el entorno viejo — Windows no les avisa que hay variables nuevas. Cerrá la terminal por completo y abrí una nueva antes de usar `nvim`.
 
 ## 2. WSL
 

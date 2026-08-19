@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
-# Uso: winget configure -f configuration.dsc.yaml
+# Uso: winget configure -f configuration.dsc.yaml --accept-configuration-agreements --disable-interactivity
 
 properties:
   resources:
@@ -100,6 +100,25 @@ properties:
         allowPrerelease: true
       settings:
         id: Microsoft.Coreutils
+        source: winget
+
+    # Usados por el picker de archivos/grep de snacks.nvim
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: fd
+      directives:
+        description: Install fd
+        allowPrerelease: true
+      settings:
+        id: sharkdp.fd
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: ripgrep
+      directives:
+        description: Install ripgrep
+        allowPrerelease: true
+      settings:
+        id: BurntSushi.ripgrep.MSVC
         source: winget
 
     # Compilador C (mingw-w64), necesario para que nvim-treesitter compile los parsers en Windows
