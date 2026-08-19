@@ -1,0 +1,7 @@
+{{- if eq .chezmoi.os "windows" }}
+dot_config/fish
+{{- end }}
+{{- if eq .chezmoi.os "linux" }}
+dot_config/wezterm
+Documents
+{{- end }}
