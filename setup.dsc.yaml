@@ -170,6 +170,21 @@ properties:
         TestScript: "[Environment]::GetEnvironmentVariable('XDG_CONFIG_HOME', 'User') -eq (Join-Path $env:USERPROFILE '.config')"
         SetScript: "[Environment]::SetEnvironmentVariable('XDG_CONFIG_HOME', (Join-Path $env:USERPROFILE '.config'), 'User')"
 
+    # Herdr usa $SHELL para decidir qué ejecutable abrir en paneles nuevos; sin
+    # esto cae a powershell.exe (5.1) en vez de pwsh (7). Se setea solo como
+    # variable de usuario de Windows para no pisar $SHELL en WSL, donde herdr
+    # ya respeta fish (shell de login configurado en setup.sh).
+    - resource: PSDscResources/Script
+      id: shellEnv
+      dependsOn:
+        - pwsh7
+      directives:
+        description: Set SHELL to pwsh so Herdr defaults to PowerShell 7 on Windows
+      settings:
+        GetScript: "@{ Result = '' }"
+        TestScript: "[Environment]::GetEnvironmentVariable('SHELL', 'User') -eq 'pwsh.exe'"
+        SetScript: "[Environment]::SetEnvironmentVariable('SHELL', 'pwsh.exe', 'User')"
+
     # Apunta CC al gcc de WinLibs y lo agrega al PATH de usuario, para que
     # tree-sitter build (usado por nvim-treesitter) lo encuentre en vez de cl.exe.
     - resource: PSDscResources/Script
